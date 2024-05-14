@@ -167,7 +167,7 @@ public class second_activity extends AppCompatActivity {
         agbaraGrade2.setVisibility(View.VISIBLE);
         level1.setVisibility(View.VISIBLE);
         level2.setVisibility(View.VISIBLE);
-        agbara1.setText("מבוא למדעים");
+        agbara1.setText("Intro to Science");
         agbara2.setText(agbara2.getText().toString());
         level1.setText("1");
         level2.setText("5");
