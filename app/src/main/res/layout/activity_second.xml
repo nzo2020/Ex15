@@ -259,6 +259,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
+        android:onClick="next"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
