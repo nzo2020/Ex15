@@ -18,16 +18,119 @@ public class second_activity extends AppCompatActivity {
     RadioButton option1, option2, option3;
     EditText agbaraGrade1, agbaraGrade2, agbaraGrade3, edtMathGrade, edtEnglishGrade, edtEnglishLevel,
             edtMathLevel;
-    Intent intent2, intent;
-    int mathGrade, mathLevel, englishGrade, englishLevel, answer, grade1, grade2, grade3, selectedOption=0;
+    Intent intentToResult, intentBack;
+    int mathGrade=-1, mathLevel, englishGrade, englishLevel, grade1, grade2, grade3, selectedOption=0;
+    String mathGradeStr, mathLevelStr, englishGradeStr, englishLevelStr;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        intent2 = new Intent(second_activity.this, result.class);
+        intentToResult = new Intent(second_activity.this, result.class);
         initViews();
-        intent = getIntent();
+        intentBack = getIntent();
+        setScreenParams();
+    }
+
+    public void setScreenParams(){
+        mathGrade = intentBack.getIntExtra("mathGrade", -1);
+        if(mathGrade>-1) {
+            edtMathGrade.setText(String.valueOf(mathGrade));
+        }
+        mathLevel = intentBack.getIntExtra("mathLevel", -1);
+        if(mathLevel>-1){
+            edtMathLevel.setText(String.valueOf(mathLevel));
+        }
+        englishGrade = intentBack.getIntExtra("englishGrade", -1);
+        if(englishGrade>-1) {
+            edtEnglishGrade.setText(String.valueOf(englishGrade));
+        }
+        englishLevel = intentBack.getIntExtra("englishLevel", -1);
+        if(englishLevel>-1){
+            edtEnglishLevel.setText(String.valueOf(englishLevel));
+        }
+        selectedOption = intentBack.getIntExtra("selectedOption", 0);
+        if(selectedOption>0){
+            if(selectedOption==1){
+                option1.setChecked(true);
+                clickedOption1(null);
+                String agbara1Name = intentBack.getStringExtra("agbara1");
+                String agbara2Name = intentBack.getStringExtra("agbara2");
+                grade1 = intentBack.getIntExtra("grade1", -1);
+                grade2 = intentBack.getIntExtra("grade2", -1);
+                if(!agbara1Name.isEmpty()){
+                    agbara1.setText(agbara1Name);
+                }
+                if(!agbara2Name.isEmpty()){
+                    agbara2.setText(agbara2Name);
+                }
+                level1.setText("1");
+                level2.setText("5");
+                if(grade1>-1){
+                    agbaraGrade1.setText(String.valueOf(grade1));
+                }
+                if(grade2>-1){
+                    agbaraGrade2.setText(String.valueOf(grade2));
+                }
+            }
+            if(selectedOption==2){
+                option2.setChecked(true);
+                clickedOption2(null);
+                String agbara1Name = intentBack.getStringExtra("agbara1");
+                String agbara2Name = intentBack.getStringExtra("agbara2");
+                grade1 = intentBack.getIntExtra("grade1", -1);
+                grade2 = intentBack.getIntExtra("grade2", -1);
+                if(!agbara1Name.isEmpty()){
+                    agbara1.setText(agbara1Name);
+                }
+                if(!agbara2Name.isEmpty()){
+                    agbara2.setText(agbara2Name);
+                }
+                level1.setText("5");
+                level2.setText("5");
+                if(grade1>-1){
+                    agbaraGrade1.setText(String.valueOf(grade1));
+                }
+                if(grade2>-1){
+                    agbaraGrade2.setText(String.valueOf(grade2));
+                }
+            }
+            if(selectedOption==3){
+                option3.setChecked(true);
+                clickedOption3(null);
+                String agbara1Name = intentBack.getStringExtra("agbara1");
+                String agbara2Name = intentBack.getStringExtra("agbara2");
+                String agbara3Name = intentBack.getStringExtra("agbara3");
+                grade1 = intentBack.getIntExtra("grade1", -1);
+                grade2 = intentBack.getIntExtra("grade2", -1);
+                grade3 = intentBack.getIntExtra("grade3", -1);
+                if(!agbara1Name.isEmpty()){
+                    agbara1.setText(agbara1Name);
+                }
+                if(!agbara2Name.isEmpty()){
+                    agbara2.setText(agbara2Name);
+                }
+                if(!agbara3Name.isEmpty()){
+                    agbara3.setText(agbara3Name);
+                }
+
+                level1.setText("5");
+                level2.setText("5");
+                level3.setText("5");
+
+                if(grade1>-1){
+                    agbaraGrade1.setText(String.valueOf(grade1));
+                }
+                if(grade2>-1){
+                    agbaraGrade2.setText(String.valueOf(grade2));
+                }
+                if(grade3>-1){
+                    agbaraGrade3.setText(String.valueOf(grade3));
+                }
+            }
+        }
 
     }
     public void clearSelection(){
@@ -46,6 +149,10 @@ public class second_activity extends AppCompatActivity {
         level1.setText("");
         level2.setText("");
         level3.setText("");
+        agbaraGrade1.setText("");
+        agbaraGrade2.setText("");
+        agbaraGrade3.setText("");
+
         grade1=0;
         grade2=0;
         grade3=0;
@@ -131,7 +238,20 @@ public class second_activity extends AppCompatActivity {
         return !level.isEmpty() && !(Integer.parseInt(level) > 100);
     }
 
-    public void next(View view) {
+    public void setGrades() {
+        int gradeLang = intentBack.getIntExtra("gradeLang",-1);
+        int gradeLitr = intentBack.getIntExtra("gradeLitr",-1);
+        int gradeHist = intentBack.getIntExtra("gradeHist",-1);
+        int gradeCitz = intentBack.getIntExtra("gradeCitz",-1);
+        int gradeBible = intentBack.getIntExtra("gradeBible",-1);
+        intentToResult.putExtra("gradeLang", gradeLang);
+        intentToResult.putExtra("gradeLitr", gradeLitr);
+        intentToResult.putExtra("gradeHist", gradeHist);
+        intentToResult.putExtra("gradeCitz", gradeCitz);
+        intentToResult.putExtra("gradeBible", gradeBible);
+
+
+
         if (!isValidLevel(edtEnglishLevel.getText().toString()) ||
                 !isValidLevel(edtMathLevel.getText().toString()) ||
                 !isValidGrade(edtMathGrade.getText().toString()) ||
@@ -142,19 +262,19 @@ public class second_activity extends AppCompatActivity {
             englishGrade = 0;
             englishLevel = 0;
         } else {
-            String mathGradeStr = edtMathGrade.getText().toString();
-            String mathLevelStr = edtMathLevel.getText().toString();
-            String englishGradeStr = edtEnglishGrade.getText().toString();
-            String englishLevelStr = edtEnglishLevel.getText().toString();
-            int mathGrade = Integer.parseInt(mathGradeStr);
-            int mathLevel = Integer.parseInt(mathLevelStr);
-            int englishGrade = Integer.parseInt(englishGradeStr);
-            int englishLevel = Integer.parseInt(englishLevelStr);
-            intent2.putExtra("mathGrade", mathGrade);
-            intent2.putExtra("mathLevel", mathLevel);
-            intent2.putExtra("englishGrade", englishGrade);
-            intent2.putExtra("englishLevel", englishLevel);
-            startActivity(intent2);
+            mathGradeStr = edtMathGrade.getText().toString();
+            mathLevelStr = edtMathLevel.getText().toString();
+            englishGradeStr = edtEnglishGrade.getText().toString();
+            englishLevelStr = edtEnglishLevel.getText().toString();
+            mathGrade = Integer.parseInt(mathGradeStr);
+            mathLevel = Integer.parseInt(mathLevelStr);
+            englishGrade = Integer.parseInt(englishGradeStr);
+            englishLevel = Integer.parseInt(englishLevelStr);
+            intentToResult.putExtra("mathGrade", mathGrade);
+            intentToResult.putExtra("mathLevel", mathLevel);
+            intentToResult.putExtra("englishGrade", englishGrade);
+            intentToResult.putExtra("englishLevel", englishLevel);
+            intentToResult.putExtra("selectedOption", selectedOption);
         }
         if(selectedOption==1){
             if (!isValidGrade(agbaraGrade1.getText().toString()) ||
@@ -165,13 +285,14 @@ public class second_activity extends AppCompatActivity {
             } else {
                 String agbaraGrade1Str = agbaraGrade1.getText().toString();
                 String agbaraGrade2Str = agbaraGrade2.getText().toString();
-                int agbaraGrade1 = Integer.parseInt(agbaraGrade1Str);
-                int agbaraGrade2 = Integer.parseInt(agbaraGrade2Str);
-                intent2.putExtra("agbaraGrade1",agbaraGrade1 );
-                intent2.putExtra("agbaraGrade2", agbaraGrade2);
-                intent2.putExtra("level1", 1);
-                intent2.putExtra("level2", 5);
-                startActivity(intent2);
+                grade1 = Integer.parseInt(agbaraGrade1Str);
+                grade2 = Integer.parseInt(agbaraGrade2Str);
+                intentToResult.putExtra("agbaraGrade1",grade1 );
+                intentToResult.putExtra("agbaraGrade2", grade2);
+                intentToResult.putExtra("level1", 1);
+                intentToResult.putExtra("level2", 5);
+                intentToResult.putExtra("agbaraName1", "Intro to Science");
+                intentToResult.putExtra("agbaraName2", agbara2.getText().toString());
             }
         }else if (selectedOption==2){
             if (!isValidGrade(agbaraGrade1.getText().toString()) ||
@@ -182,13 +303,15 @@ public class second_activity extends AppCompatActivity {
             } else {
                 String agbaraGrade1Str = agbaraGrade1.getText().toString();
                 String agbaraGrade2Str = agbaraGrade2.getText().toString();
-                int agbaraGrade1 = Integer.parseInt(agbaraGrade1Str);
-                int agbaraGrade2 = Integer.parseInt(agbaraGrade2Str);
-                intent2.putExtra("agbaraGrade1", agbaraGrade1);
-                intent2.putExtra("agbaraGrade2", agbaraGrade2);
-                intent2.putExtra("level1", 5);
-                intent2.putExtra("level2", 5);
-                startActivity(intent2);
+                grade1 = Integer.parseInt(agbaraGrade1Str);
+                grade2 = Integer.parseInt(agbaraGrade2Str);
+                intentToResult.putExtra("agbaraGrade1", grade1);
+                intentToResult.putExtra("agbaraGrade2", grade2);
+                intentToResult.putExtra("level1", 5);
+                intentToResult.putExtra("level2", 5);
+                intentToResult.putExtra("agbaraName1", agbara1.getText().toString());
+                intentToResult.putExtra("agbaraName2", agbara2.getText().toString());
+
             }
         }else if (selectedOption==3){
             if (!isValidGrade(agbaraGrade1.getText().toString()) ||
@@ -202,21 +325,30 @@ public class second_activity extends AppCompatActivity {
                 String agbaraGrade1Str = agbaraGrade1.getText().toString();
                 String agbaraGrade2Str = agbaraGrade2.getText().toString();
                 String agbaraGrade3Str = agbaraGrade3.getText().toString();
-                int agbaraGrade1 = Integer.parseInt(agbaraGrade1Str);
-                int agbaraGrade2 = Integer.parseInt(agbaraGrade2Str);
-                int agbaraGrade3 = Integer.parseInt(agbaraGrade3Str);
-                intent2.putExtra("agbaraGrade1", agbaraGrade1);
-                intent2.putExtra("agbaraGrade2", agbaraGrade2);
-                intent2.putExtra("agbaraGrade3", agbaraGrade3);
-                intent2.putExtra("level1", 5);
-                intent2.putExtra("level2", 5);
-                intent2.putExtra("level3", 5);
-                startActivity(intent2);
+                grade1 = Integer.parseInt(agbaraGrade1Str);
+                grade2 = Integer.parseInt(agbaraGrade2Str);
+                grade3 = Integer.parseInt(agbaraGrade3Str);
+                intentToResult.putExtra("agbaraGrade1", grade1);
+                intentToResult.putExtra("agbaraGrade2", grade2);
+                intentToResult.putExtra("agbaraGrade3", grade3);
+                intentToResult.putExtra("level1", 5);
+                intentToResult.putExtra("level2", 5);
+                intentToResult.putExtra("level3", 5);
+                intentToResult.putExtra("agbaraName1", agbara1.getText().toString());
+                intentToResult.putExtra("agbaraName2", agbara2.getText().toString());
+                intentToResult.putExtra("agbaraName3", agbara3.getText().toString());
+
             }
         }
     }
 
+    public void next(View view){
+        setGrades();
+        startActivity(intentToResult);
+    }
     public void prev(View view){
+        setGrades();
+        setResult(RESULT_OK, intentToResult);
         finish();
     }
 }
